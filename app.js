@@ -30,3 +30,18 @@ function Calculator(operator, num1, num2) {
 
    return operate(operator, num1, num2);    
 };
+
+// Listen to each one of the number and decimal key for clicks
+// Upon click add the value to the user number and display the number on the calc screen
+// Disable the decimal key after first click until a none number key is clicked
+
+const screen = document.getElementById("screen");
+const numKeys = document.querySelectorAll(".digit");
+let num1 = "";
+
+numKeys.forEach(key => {
+    key.addEventListener("click", e => {
+        num1 = "" + num1 + e.target.textContent;
+        screen.innerHTML = num1;
+    })
+});
