@@ -15,7 +15,7 @@
 // Divide function(num1, num2) and returns quotient
 // Operate function(operator, num1, num2) and returns the result based on the operator provided
 
-function Calculator(operator, num1, num2) {
+function calculator(operator, num1, num2) {
     const add = (num1, num2) => {return num1 + num2}
     const subtract = (num1, num2) => {return num1 - num2}
     const multiply = (num1, num2) => {return num1 * num2}
@@ -37,11 +37,19 @@ function Calculator(operator, num1, num2) {
 
 const screen = document.getElementById("screen");
 const numKeys = document.querySelectorAll(".digit");
-let num1 = "";
+let tempNum = "";
 
 numKeys.forEach(key => {
     key.addEventListener("click", e => {
-        num1 = "" + num1 + e.target.textContent;
-        screen.innerHTML = num1;
+        let userNum = getNumber(e.target.textContent);
+        updateScreen(userNum);
     })
 });
+
+function getNumber(num) {
+    return tempNum = tempNum + num;
+}
+
+function updateScreen (content) {
+    screen.innerHTML = content;
+}

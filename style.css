@@ -50,6 +50,10 @@ header {
     width: 90%;
     height: 80px;
     margin-bottom: 14px;
+    font-size: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 #buttons {
@@ -59,6 +63,7 @@ header {
     width: 95%;
     justify-content: center;
     gap: 5px;
+    text-align: left;
 }
 
 #buttons button {
