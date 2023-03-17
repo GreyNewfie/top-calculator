@@ -37,17 +37,25 @@ function calculator(operator, num1, num2) {
 
 const screen = document.getElementById("screen");
 const numKeys = document.querySelectorAll(".digit");
-let tempNum = "";
+let total = "";
+let userNum = "";
 
 numKeys.forEach(key => {
     key.addEventListener("click", e => {
-        let userNum = getNumber(e.target.textContent);
+        userNum = getNumber(e.target.textContent);
         updateScreen(userNum);
     })
 });
 
+const decimal = document.getElementById("decimal");
+
+decimal.addEventListener("click", e => {
+    userNum = userNum + "."
+    updateScreen(userNum);
+});
+
 function getNumber(num) {
-    return tempNum = tempNum + num;
+    return userNum = userNum + num;
 }
 
 function updateScreen (content) {
