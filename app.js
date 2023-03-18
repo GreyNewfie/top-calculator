@@ -84,7 +84,9 @@ equals.addEventListener("click", (e) => {
             i++;
             return total;
         }
-        return calculator(total, currentNum, operators[i-1]);
+        total = calculator(total, currentNum, operators[i-1]);
+        i++;
+        return total;
     }, 0);
     displayValue(userTotal);
 });
