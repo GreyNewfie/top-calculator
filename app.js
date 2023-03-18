@@ -44,21 +44,30 @@ let userNum = "";
 
 numKeys.forEach(key => {
     key.addEventListener("click", e => {
-        userNum = createUserNum(e.target.textContent);
+        userNum = userNum + e.target.textContent;
         displayValue(userNum);
     })
 });
 
 const operatorKeys = document.querySelectorAll(".operator");
 let operator;
+let operatorsClicked = 0;
+let nextUserNum;
+let userTotal;
 
 operatorKeys.forEach(operatorKey => {
     operatorKey.addEventListener("click", e => {
-        operator = e.target.textContent;
-        storeOperater(operator);
-        storeNum(userNum);
-        displayValue(operator);
+        operatorsClicked++;
+        if (operatorsClicked > 1) {
+            nextUserNum = userNum;
+            userTotal = calculator(userTotal, nextUserNum, operator);
+            displayValue(userTotal);
+         } else {
+            userTotal = userNum;
+            operator = e.target.textContent;
+        }
         clearUserNum();
+        operator = e.target.textContent;
     });
 });
 
@@ -70,24 +79,9 @@ decimal.addEventListener("click", e => {
     decimal.disabled = true;
 });
 
-function createUserNum(num) {
-    return userNum = userNum + num;
-}
-
 const equals = document.getElementById("equals");
 
 equals.addEventListener("click", (e) => {
-    let i = 0;
-    const userTotal = userNumbers.reduce((total, currentNum) => {
-        if (i === 0) {
-            total = userNumbers[i];
-            i++;
-            return total;
-        }
-        total = calculator(total, currentNum, operators[i-1]);
-        i++;
-        return total;
-    }, 0);
     displayValue(userTotal);
 });
 
@@ -95,22 +89,6 @@ const screen = document.getElementById("screen");
 
 function displayValue(content) {
     screen.innerHTML = content;
-}
-
-const userNumbers = [];
-let userNumbersCounter = 0;
-
-function storeNum(num) {
-    userNumbers[userNumbersCounter] = num;
-    userNumbersCounter++;
-}
-
-const operators = [];
-let operatorsCounter = 0;
-
-function storeOperater(operator) {
-    operators[operatorsCounter] = operator;
-    operatorsCounter++;
 }
 
 function clearUserNum() {
