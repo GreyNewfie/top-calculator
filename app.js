@@ -15,13 +15,15 @@
 // Divide function(num1, num2) and returns quotient
 // Operate function(operator, num1, num2) and returns the result based on the operator provided
 
-function calculator(operator, num1, num2) {
+function calculator(num1, num2, operator) {
     const add = (num1, num2) => {return num1 + num2}
     const subtract = (num1, num2) => {return num1 - num2}
     const multiply = (num1, num2) => {return num1 * num2}
     const divide = (num1, num2) => {return (num1 / num2)}
     
     function operate(operator, num1, num2) {
+        num1 = parseFloat(num1);
+        num2 = parseFloat(num2);
         if (operator === "+") return add(num1, num2);
         if (operator === "-") return subtract(num1, num2);
         if (operator === "*") return multiply(num1, num2);
@@ -35,29 +37,80 @@ function calculator(operator, num1, num2) {
 // Upon click add the value to the user number and display the number on the calc screen
 // Disable the decimal key after first click until a none number key is clicked
 
-const screen = document.getElementById("screen");
+// Reset calc should clear display, num values, reset decimal
+
 const numKeys = document.querySelectorAll(".digit");
-let total = "";
 let userNum = "";
 
 numKeys.forEach(key => {
     key.addEventListener("click", e => {
-        userNum = getNumber(e.target.textContent);
-        updateScreen(userNum);
+        userNum = createUserNum(e.target.textContent);
+        displayValue(userNum);
     })
+});
+
+const operatorKeys = document.querySelectorAll(".operator");
+let operator;
+
+operatorKeys.forEach(operatorKey => {
+    operatorKey.addEventListener("click", e => {
+        operator = e.target.textContent;
+        storeOperater(operator);
+        storeNum(userNum);
+        displayValue(operator);
+        clearUserNum();
+    });
 });
 
 const decimal = document.getElementById("decimal");
 
 decimal.addEventListener("click", e => {
-    userNum = userNum + "."
-    updateScreen(userNum);
+    userNum = userNum + ".";
+    displayValue(userNum);
+    decimal.disabled = true;
 });
 
-function getNumber(num) {
+function createUserNum(num) {
     return userNum = userNum + num;
 }
 
-function updateScreen (content) {
+const equals = document.getElementById("equals");
+
+equals.addEventListener("click", (e) => {
+    let i = 0;
+    const userTotal = userNumbers.reduce((total, currentNum) => {
+        if (i === 0) {
+            total = userNumbers[i];
+            i++;
+            return total;
+        }
+        return calculator(total, currentNum, operators[i-1]);
+    }, 0);
+    displayValue(userTotal);
+});
+
+const screen = document.getElementById("screen");
+
+function displayValue(content) {
     screen.innerHTML = content;
+}
+
+const userNumbers = [];
+let userNumbersCounter = 0;
+
+function storeNum(num) {
+    userNumbers[userNumbersCounter] = num;
+    userNumbersCounter++;
+}
+
+const operators = [];
+let operatorsCounter = 0;
+
+function storeOperater(operator) {
+    operators[operatorsCounter] = operator;
+    operatorsCounter++;
+}
+
+function clearUserNum() {
+    userNum = "";
 }
