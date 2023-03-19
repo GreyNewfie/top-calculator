@@ -63,13 +63,20 @@ header {
     width: 95%;
     justify-content: center;
     gap: 5px;
-    text-align: left;
 }
 
 #buttons button {
     width: 22%;
     border-radius: 5px;
     font-size: larger;
+}
+
+#clear {
+    flex-basis: 69%;
+}
+
+#equals {
+    flex-basis: 46%;
 }
 
 footer {
