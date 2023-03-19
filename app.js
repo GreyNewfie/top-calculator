@@ -68,12 +68,13 @@ operatorKeys.forEach(operatorKey => {
         }
         clearUserNum();
         operator = e.target.textContent;
+        endableDecimal();
     });
 });
 
 const decimal = document.getElementById("decimal");
 
-decimal.addEventListener("click", e => {
+decimal.addEventListener("click", () => {
     userNum = userNum + ".";
     displayValue(userNum);
     decimal.disabled = true;
@@ -83,6 +84,7 @@ const equals = document.getElementById("equals");
 
 equals.addEventListener("click", (e) => {
     displayValue(userTotal);
+    endableDecimal();
 });
 
 const clear = document.getElementById("clear");
@@ -99,11 +101,15 @@ function clearUserNum() {
     userNum = "";
 }
 
+function endableDecimal() {
+    decimal.disabled = false;
+}
+
 function resetCalculator() {
     operatorsClicked = 0;
     clearUserNum();
     displayValue("");
-    decimal.disabled = false;
+    endableDecimal();
     operator = "";
     operatorsClicked = 0;
     nextUserNum = 0;
