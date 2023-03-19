@@ -30,7 +30,12 @@ function calculator(num1, num2, operator) {
         if (operator === "/") return divide(num1, num2);
     }
 
-   return operate(operator, num1, num2);    
+    const total = operate(operator, num1, num2);
+    if (total % 1 > 0) {
+        return total.toFixed(4);
+    } else {
+        return total;   
+    }
 };
 
 // Listen to each one of the number and decimal key for clicks

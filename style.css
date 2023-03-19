@@ -49,11 +49,13 @@ header {
     border-radius: 5px;
     width: 90%;
     height: 80px;
+    padding: 5px;
     margin-bottom: 14px;
     font-size: 40px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    overflow: hidden;
 }
 
 #buttons {
