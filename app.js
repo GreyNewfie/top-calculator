@@ -85,6 +85,10 @@ equals.addEventListener("click", (e) => {
     displayValue(userTotal);
 });
 
+const clear = document.getElementById("clear");
+
+clear.addEventListener("click", () => resetCalculator());
+
 const screen = document.getElementById("screen");
 
 function displayValue(content) {
@@ -93,4 +97,15 @@ function displayValue(content) {
 
 function clearUserNum() {
     userNum = "";
+}
+
+function resetCalculator() {
+    operatorsClicked = 0;
+    clearUserNum();
+    displayValue("");
+    decimal.disabled = false;
+    operator = "";
+    operatorsClicked = 0;
+    nextUserNum = 0;
+    userTotal = 0;
 }
