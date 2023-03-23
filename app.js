@@ -43,13 +43,11 @@ numKeys.forEach(key => {
 });
 
 let operator;
-// let operatorsClicked = 0;
 let nextUserNum = "";
 let userTotal = "";
 
 operatorKeys.forEach(operatorKey => {
     operatorKey.addEventListener("click", e => {
-        // operatorsClicked++;
         if (userTotal != "") {
             nextUserNum = userNum;
             userTotal = calculator(userTotal, nextUserNum, operator);
@@ -126,7 +124,6 @@ function resetCalculator() {
     enableEquals();
     enableOperatorKeys();
     operator = "";
-    // operatorsClicked = 0;
     nextUserNum = "";
     userTotal = "";
     userNum = "";
