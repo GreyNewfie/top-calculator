@@ -1,3 +1,9 @@
+const operatorKeys = document.querySelectorAll(".operator");
+const numKeys = document.querySelectorAll(".digit");
+const decimal = document.getElementById("decimal");
+const clear = document.getElementById("clear");
+const equals = document.getElementById("equals");
+const screen = document.getElementById("screen");
 
 function calculator(num1, num2, operator) {
     const add = (num1, num2) => {return num1 + num2}
@@ -11,37 +17,40 @@ function calculator(num1, num2, operator) {
         if (operator === "+") return add(num1, num2);
         if (operator === "-") return subtract(num1, num2);
         if (operator === "*") return multiply(num1, num2);
-        if (operator === "/") return divide(num1, num2);
+        if (operator === "/") {
+            if (num1 === 0 || num2 === 0) return "ERROR";
+            return divide(num1, num2);
+        }
     }
 
     const total = operate(operator, num1, num2);
     if (total % 1 > 0) {
-        return total.toFixed(4);
+        return parseFloat(total.toFixed(4));
     } else {
         return total;   
     }
 };
 
-const numKeys = document.querySelectorAll(".digit");
 let userNum = "";
 
 numKeys.forEach(key => {
     key.addEventListener("click", e => {
         userNum = userNum + e.target.textContent;
         displayValue(userNum);
+        enableOperatorKeys();
+        enableEquals();
     })
 });
 
-const operatorKeys = document.querySelectorAll(".operator");
 let operator;
-let operatorsClicked = 0;
-let nextUserNum;
-let userTotal;
+// let operatorsClicked = 0;
+let nextUserNum = "";
+let userTotal = "";
 
 operatorKeys.forEach(operatorKey => {
     operatorKey.addEventListener("click", e => {
-        operatorsClicked++;
-        if (operatorsClicked > 1) {
+        // operatorsClicked++;
+        if (userTotal != "") {
             nextUserNum = userNum;
             userTotal = calculator(userTotal, nextUserNum, operator);
             displayValue(userTotal);
@@ -52,10 +61,10 @@ operatorKeys.forEach(operatorKey => {
         clearUserNum();
         operator = e.target.textContent;
         endableDecimal();
+        disableEquals();
+        disableOperators();
     });
 });
-
-const decimal = document.getElementById("decimal");
 
 decimal.addEventListener("click", () => {
     userNum = userNum + ".";
@@ -63,18 +72,24 @@ decimal.addEventListener("click", () => {
     decimal.disabled = true;
 });
 
-const equals = document.getElementById("equals");
 
-equals.addEventListener("click", (e) => {
-    displayValue(userTotal);
-    endableDecimal();
+equals.addEventListener("click", () => {
+    if (userTotal == "" || userNum == "") {
+        equals.disabled = true;
+    } else if (userTotal != "" && operator != "") {
+        nextUserNum = userNum;
+        userTotal = calculator(userTotal, nextUserNum, operator);
+        displayValue(userTotal);
+        endableDecimal();
+        enableEquals();
+        userNum = userTotal;
+        nextUserNum = "";
+        userTotal = "";
+    }
 });
 
-const clear = document.getElementById("clear");
 
 clear.addEventListener("click", () => resetCalculator());
-
-const screen = document.getElementById("screen");
 
 function displayValue(content) {
     screen.innerHTML = content;
@@ -84,17 +99,35 @@ function clearUserNum() {
     userNum = "";
 }
 
+function disableOperators() {
+    operatorKeys.forEach(key => key.disabled = true);
+}
+
+function enableOperatorKeys() {
+    operatorKeys.forEach(key => key.disabled = false);   
+}
+
 function endableDecimal() {
     decimal.disabled = false;
 }
 
+function enableEquals() {
+    equals.disabled = false;
+}
+
+function disableEquals() {
+    equals.disabled = true;
+}
+
 function resetCalculator() {
-    operatorsClicked = 0;
     clearUserNum();
     displayValue("");
     endableDecimal();
+    enableEquals();
+    enableOperatorKeys();
     operator = "";
-    operatorsClicked = 0;
-    nextUserNum = 0;
-    userTotal = 0;
+    // operatorsClicked = 0;
+    nextUserNum = "";
+    userTotal = "";
+    userNum = "";
 }
