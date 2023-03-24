@@ -18,7 +18,10 @@ function calculator(num1, num2, operator) {
         if (operator === "-") return subtract(num1, num2);
         if (operator === "*") return multiply(num1, num2);
         if (operator === "/") {
-            if (num1 === 0 || num2 === 0) return "ERROR";
+            if (num1 === 0 || num2 === 0) {
+                disableButtons();
+                return "I PITY THE FOOL";
+            } 
             return divide(num1, num2);
         }
     }
@@ -58,7 +61,7 @@ operatorKeys.forEach(operatorKey => {
         }
         clearUserNum();
         operator = e.target.textContent;
-        endableDecimal();
+        enableDecimal();
         disableEquals();
         disableOperators();
     });
@@ -67,7 +70,7 @@ operatorKeys.forEach(operatorKey => {
 decimal.addEventListener("click", () => {
     userNum = userNum + ".";
     displayValue(userNum);
-    decimal.disabled = true;
+    disableDecimal();
 });
 
 
@@ -78,7 +81,7 @@ equals.addEventListener("click", () => {
         nextUserNum = userNum;
         userTotal = calculator(userTotal, nextUserNum, operator);
         displayValue(userTotal);
-        endableDecimal();
+        enableDecimal();
         enableEquals();
         userNum = userTotal;
         nextUserNum = "";
@@ -105,7 +108,19 @@ function enableOperatorKeys() {
     operatorKeys.forEach(key => key.disabled = false);   
 }
 
-function endableDecimal() {
+function disableNumKeys() {
+    numKeys.forEach(key => key.disabled = true);
+}
+
+function enableNumKeys() {
+    numKeys.forEach(key => key.disabled = false);   
+}
+
+function disableDecimal() {
+    decimal.disabled = true;
+}
+
+function enableDecimal() {
     decimal.disabled = false;
 }
 
@@ -117,14 +132,27 @@ function disableEquals() {
     equals.disabled = true;
 }
 
+function disableButtons() {
+    disableNumKeys();
+    disableOperators();
+    disableEquals();
+    disableDecimal();
+}
+
+function enableButtons() {
+   enableNumKeys();
+   enableOperatorKeys();
+   enableEquals();
+   enableDecimal();
+}
+
 function resetCalculator() {
     clearUserNum();
     displayValue("");
-    endableDecimal();
-    enableEquals();
-    enableOperatorKeys();
+    enableButtons();
     operator = "";
     nextUserNum = "";
     userTotal = "";
     userNum = "";
 }
+
